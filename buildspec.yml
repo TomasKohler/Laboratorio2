@@ -1,0 +1,34 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo "Logging in amazon ECR"
+      - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 253490770873.dkr.ecr.us-east-2.amazonaws.com
+      - echo Getting the code version...
+      - export CODE_VERSION=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+  build:
+    on-failure: ABORT
+    commands:
+      - echo "Building a docker image for you"
+      - docker build -t pipelines/tk-test:${CODE_VERSION} .
+      - echo "Making a tag for the image"
+      - docker tag pipelines/tk-test:${CODE_VERSION} 253490770873.dkr.ecr.us-east-2.amazonaws.com/pipelines/tk-test:${CODE_VERSION}
+      - docker tag pipelines/tk-test:latest 253490770873.dkr.ecr.us-east-2.amazonaws.com/pipelines/tk-test:latest
+
+  post_build:
+    commands:
+      - echo Push the image
+      - docker push 253490770873.dkr.ecr.us-east-2.amazonaws.com/pipelines/tk-test:${CODE_VERSION}
+      - docker push 253490770873.dkr.ecr.us-east-2.amazonaws.com/pipelines/tk-test:latest
+      - printf '[{"name":"tk-php","imageUri":"%s"}]' 253490770873.dkr.ecr.us-east-2.amazonaws.com/pipelines/tk-test:${CODE_VERSION} > imagedefinitions.json
+    
+artifacts:
+  files:
+    - imagedefinitions.json
+
+
+
+
+
+
