@@ -38,7 +38,7 @@
         <?php
         echo "<h1>Hola Tera!</h1>";
         echo "<p>Servidor: " . gethostname() . "</p>";
-        echo "<p>Servidor web #" . getenv('SERVER_ID') . "</p>";
+        echo "<p>Servidor web #" . $_SERVER['SERVER_ADDR'] . "</p>";
         ?>
     </div>
 
