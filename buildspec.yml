@@ -12,12 +12,10 @@ phases:
       - echo Building the Docker image...
       - docker build -t tk-php:${CODE_VERSION} .
       - docker tag tk-php:${CODE_VERSION} 253490770873.dkr.ecr.us-east-2.amazonaws.com/pipelines/tk-test:${CODE_VERSION}
-      - docker tag tk-php:${CODE_VERSION} 253490770873.dkr.ecr.us-east-2.amazonaws.com/pipelines/tk-test:latest
   post_build:
     commands:
       - echo Pushing the Docker image to ECR...
       - docker push 253490770873.dkr.ecr.us-east-2.amazonaws.com/pipelines/tk-test:${CODE_VERSION}
-      - docker push 253490770873.dkr.ecr.us-east-2.amazonaws.com/pipelines/tk-test:latest
       - echo Writing image definition file for ECS deployment...
       - printf '[{"name":"tk-php","imageUri":"%s"}]' 253490770873.dkr.ecr.us-east-2.amazonaws.com/pipelines/tk-test:${CODE_VERSION} > imagedefinitions.json
 
