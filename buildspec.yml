@@ -11,10 +11,10 @@ phases:
     on-failure: ABORT
     commands:
       - echo "Building a docker image for you"
-      - docker build -t pipelines/tk-test:${CODE_VERSION} .
+      - docker build -t tk-php:${CODE_VERSION} .
       - echo "Making a tag for the image"
-      - docker tag pipelines/tk-test:${CODE_VERSION} 253490770873.dkr.ecr.us-east-2.amazonaws.com/pipelines/tk-test:${CODE_VERSION}
-      - docker tag pipelines/tk-test:latest 253490770873.dkr.ecr.us-east-2.amazonaws.com/pipelines/tk-test:latest
+      - docker tag tk-php:${CODE_VERSION} 253490770873.dkr.ecr.us-east-2.amazonaws.com/pipelines/tk-test:${CODE_VERSION}
+      - docker tag tk-php:latest 253490770873.dkr.ecr.us-east-2.amazonaws.com/pipelines/tk-test:latest
 
   post_build:
     commands:
