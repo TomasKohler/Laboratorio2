@@ -36,9 +36,9 @@
 
     <div id="content">
         <?php
-        echo "<h1>Hola Tera!</h1>";
+        echo "<h1>Hola Tera!!</h1>";
         echo "<p>Servidor: " . gethostname() . "</p>";
-        echo "<p>Servidor web #" . $_SERVER['SERVER_ADDR'] . "</p>";
+        echo "<p>Direccion del servidor #: " . $_SERVER['SERVER_ADDR'] . "</p>";
         ?>
     </div>
 
